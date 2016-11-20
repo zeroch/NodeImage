@@ -21,21 +21,35 @@ http.createServer(function(request, response){
 
 	console.log(queryData);
 
-	response.writeHead(200, {"Content-Type": "text/html"});
 	if (request.method === 'GET' && parseObject.pathname === '/test') {
-		response.write("Here is valid check \n");
+		if (queryData.bing === 'true')
+		{
+			response.setHeader('Content-Type', 'image/jpg');
+		}
+		else
+		{
+			response.writeHead(200, {"Content-Type": "text/html"});
+			response.write("Here is valid check \n");
+		}
+
 		if ( queryData.name )
 		{
+
 			if (queryData.name === "mengmeng")
 				var imageName = "xx.jpg";
 			else
 				var imageName = "yy.jpg";
 
-			response.write(imageName + '\n');
 			fs.readFile(imageName, function(err, content){
 				if (err)  throw err;
 				imagedata = new Buffer(content).toString('base64');
-				response.write('<img src="data:image/jpg;base64,' + imagedata + '" height="640" width="480">');
+				if (queryData.bing === 'true')
+				{
+					response.write(content);
+				}else{
+					response.write(imageName + '\n');
+					response.write('<img src="data:image/jpg;base64,' + imagedata + '" height="640" width="480">');
+				}
 				response.end();
 
 			});
