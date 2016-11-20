@@ -19,8 +19,10 @@ http.createServer(function(request, response){
 	var parseObject = url.parse(request.url, true);
 	var queryData = parseObject.query;
 
+	console.log(queryData);
+
 	response.writeHead(200, {"Content-Type": "text/html"});
-	if (request.method === 'GET' && parseObject.pathname === '/cat') {
+	if (request.method === 'GET' && parseObject.pathname === '/test') {
 		response.write("Here is valid check \n");
 		if ( queryData.name )
 		{
